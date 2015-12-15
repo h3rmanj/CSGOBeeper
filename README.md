@@ -7,4 +7,4 @@ New round notifier for windows using GSI
 3. Play CS:GO!
 
 # Custom sound
-You can use any .wav to use as the notification sound. Just rename it to alert.wav and move it to the same folder as CSGOBeeper.exe
+You can use any .wav or .mp3 to use as the notification sound. You can also adjust the volume of the sound to play.
