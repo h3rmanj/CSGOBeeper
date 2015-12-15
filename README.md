@@ -2,7 +2,7 @@
 New round notifier for windows using GSI
 
 # Innstallation
-1. Move gamestate_integration_master117.cfg to steamapps\common\Counter-Strike Global Offensive\csgo\cfg\
+1. Move gamestate_integration_csgobeeper.cfg (or your own gsi config) to steamapps\common\Counter-Strike Global Offensive\csgo\cfg\
 2. Launch CSGOBeeper.exe
 3. Play CS:GO!
 
