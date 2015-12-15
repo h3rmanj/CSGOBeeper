@@ -11,6 +11,7 @@ namespace CSGOBeeper
 {
 	class Program : Form
 	{
+		private WMPLib.WindowsMediaPlayer player;
 		private NotifyIcon trayIcon;
 		private ContextMenu trayMenu;
 		private static bool freezed;
@@ -26,6 +27,7 @@ namespace CSGOBeeper
 		public Program ()
 		{
 			trayMenu = new ContextMenu();
+			trayMenu.MenuItems.Add("Settings", OnSettings);
 			trayMenu.MenuItems.Add("Exit", OnExit);
 			trayIcon = new NotifyIcon();
 			trayIcon.Text = "CSGOBeeper";
@@ -34,6 +36,12 @@ namespace CSGOBeeper
 			trayIcon.Visible = true;
 			RunServer();
 			freezed = false;
+			player = new WMPLib.WindowsMediaPlayer();
+		}
+
+		public void OnSettings (object sender, EventArgs e)
+		{
+			new Settings(player).Show();
 		}
 
 		public void RunServer ()
@@ -56,7 +64,7 @@ namespace CSGOBeeper
 						{
 							freezed = true;
 							if (CSGOIsMinimized())
-								PlaySound();
+								PlaySound(player);
 						}
 						break;
 					default:
@@ -67,10 +75,11 @@ namespace CSGOBeeper
 			}
 		}
 
-		public static void PlaySound ()
+		public static void PlaySound (WMPLib.WindowsMediaPlayer player)
 		{
-			System.Media.SoundPlayer player = new System.Media.SoundPlayer("alert.wav");
-			player.Play();
+			player.URL = Properties.Settings.Default.filename;
+			player.settings.volume = Properties.Settings.Default.volume;
+			player.controls.play();
 		}
 
 		[DllImport("user32.dll")]
@@ -100,9 +109,24 @@ namespace CSGOBeeper
 		protected override void Dispose (bool isDisposing)
 		{
 			if (isDisposing)
+			{
 				trayIcon.Dispose();
+				Properties.Settings.Default.Save();
+			}
 
 			base.Dispose(isDisposing);
+		}
+
+		private void InitializeComponent ()
+		{
+			this.SuspendLayout();
+			// 
+			// Program
+			// 
+			this.ClientSize = new System.Drawing.Size(116, 58);
+			this.Name = "Program";
+			this.ResumeLayout(false);
+
 		}
 	}
 }
